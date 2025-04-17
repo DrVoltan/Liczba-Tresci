@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Licznik publikacji </title>
+  <title>Licznik publikacji Money.pl</title>
   <style>
     body {
       font-family: sans-serif;
@@ -26,7 +26,7 @@
   </style>
 </head>
 <body>
-  <h1>Liczba publikacji (dziś)</h1>
+  <h1>Liczba publikacji na Money.pl (dziś)</h1>
   <div id="output">Trwa pobieranie danych...</div>
 
   <script>
@@ -42,6 +42,7 @@
         const data = await response.json();
         const html = data.contents;
 
+        // Zlicz poprawnie elementy <li class="archive__list-item">
         const matches = html.match(/<li class="archive__list-item">/g);
         const liczba = matches ? matches.length : 0;
 
