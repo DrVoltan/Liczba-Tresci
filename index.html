@@ -7,16 +7,16 @@
   <style>
     body {
       font-family: sans-serif;
-      background-color: #f2f2f2;
+      background-color: #f9f9f9;
       padding: 2rem;
       max-width: 700px;
       margin: auto;
     }
     h1 {
       font-size: 1.8rem;
+      margin-bottom: 1rem;
     }
     #output {
-      margin-top: 1rem;
       font-size: 1.2rem;
       background: #fff;
       padding: 1rem;
@@ -35,27 +35,3 @@
       const rok = dzis.getFullYear();
       const miesiac = String(dzis.getMonth() + 1).padStart(2, '0');
       const dzien = String(dzis.getDate()).padStart(2, '0');
-      const url = `https://www.money.pl/archiwum/data/${rok}-${miesiac}-${dzien}/`;
-
-      try {
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-        const response = await fetch(proxyUrl);
-        const data = await response.json();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data.contents, 'text/html');
-
-        const artykuly = doc.querySelectorAll('li.archive__list-item');
-        const liczba = artykuly.length;
-
-        document.getElementById('output').innerHTML =
-          `<strong>Opublikowano ${liczba} tekstów do tej pory (${rok}-${miesiac}-${dzien}).</strong>`;
-      } catch (error) {
-        document.getElementById('output').innerText = 'Nie udało się pobrać danych. Spróbuj później.';
-        console.error(error);
-      }
-    }
-
-    policzPublikacje();
-  </script>
-</body>
-</html>
