@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Licznik publikacji Money.pl</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f2f2f2;
+      padding: 2rem;
+      max-width: 700px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 1.8rem;
+    }
+    #output {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>Liczba publikacji na Money.pl (dziś)</h1>
+  <div id="output">Trwa pobieranie danych...</div>
+
+  <script>
+    async function policzPublikacje() {
+      const dzis = new Date();
+      const rok = dzis.getFullYear();
+      const miesiac = String(dzis.getMonth() + 1).padStart(2, '0');
+      const dzien = String(dzis.getDate()).padStart(2, '0');
+      const url = `https://www.money.pl/archiwum/${rok}-${miesiac}-${dzien}/`;
+
+      try {
+        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+        const data = await response.json();
+        const html = data.contents;
+
+        const matches = html.match(/<li class=\"archiwum__list-item\">/g);
+        const liczba = matches ? matches.length : 0;
+
+        const godzina = dzis.getHours();
+        let kiedy = '';
+        if (godzina >= 22) kiedy = 'na godzinę 22:00';
+        else if (godzina >= 21) kiedy = 'na godzinę 21:00';
+        else kiedy = 'do teraz';
+
+        document.getElementById('output').innerHTML =
+          `<strong>Opublikowano ${liczba} tekstów ${kiedy} (${rok}-${miesiac}-${dzien}).</strong>`;
+      } catch (error) {
+        document.getElementById('output').innerText = 'Nie udało się pobrać danych. Spróbuj później.';
+        console.error(error);
+      }
+    }
+
+    policzPublikacje();
+  </script>
+</body>
+</html>
