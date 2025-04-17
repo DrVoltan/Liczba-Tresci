@@ -45,14 +45,8 @@
         const matches = html.match(/<li class=\"archiwum__list-item\">/g);
         const liczba = matches ? matches.length : 0;
 
-        const godzina = dzis.getHours();
-        let kiedy = '';
-        if (godzina >= 22) kiedy = 'na godzinę 22:00';
-        else if (godzina >= 21) kiedy = 'na godzinę 21:00';
-        else kiedy = 'do teraz';
-
         document.getElementById('output').innerHTML =
-          `<strong>Opublikowano ${liczba} tekstów ${kiedy} (${rok}-${miesiac}-${dzien}).</strong>`;
+          `<strong>Opublikowano ${liczba} tekstów do tej pory (${rok}-${miesiac}-${dzien}).</strong>`;
       } catch (error) {
         document.getElementById('output').innerText = 'Nie udało się pobrać danych. Spróbuj później.';
         console.error(error);
