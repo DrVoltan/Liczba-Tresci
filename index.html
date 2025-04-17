@@ -42,7 +42,7 @@
         const data = await response.json();
         const html = data.contents;
 
-        const matches = html.match(/<li class=\"archiwum__list-item\">/g);
+        const matches = html.match(/<li class="archive__list-item">/g);
         const liczba = matches ? matches.length : 0;
 
         document.getElementById('output').innerHTML =
